@@ -4,7 +4,7 @@ import { Chip } from "primereact/chip";
 const HoroscopeResult = ({ result }) => {
   return (
     result && (
-      <div className="w-full ">
+      <div className="w-full flex-1">
         <Card className="p-4 py-0 shadow-none">
           <div className="grid">
             <div className="col-12 md:col-5">

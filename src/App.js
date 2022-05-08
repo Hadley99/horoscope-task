@@ -4,14 +4,14 @@ import HoroScopeForm from "./components/HoroScopeForm";
 import HoroscopeResult from "./components/HoroscopeResult";
 import { fetchData } from "./utils/fetchData";
 import { isDateWithinRange } from "./utils/IsDateWithinRange";
-
+import { ProgressSpinner } from "primereact/progressspinner";
 function App() {
   const [result, setResult] = useState();
-
+  const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (formData) => {
-    console.log(formData);
-    const { name, email, sign, day } = formData;
+    setIsLoading(true);
 
+    const { name, email, sign, day } = formData;
     const horoscopeData = await fetchData(sign, day);
 
     const isDateInRange = isDateWithinRange(horoscopeData);
@@ -28,8 +28,9 @@ function App() {
     );
     setResult(JSON.parse(sessionStorage.getItem("data")));
     reset();
+    setIsLoading(false);
   };
-  console.log(result);
+
   const defaultValues = {
     name: "",
     email: "",
@@ -54,14 +55,25 @@ function App() {
   }, []);
   return (
     <div className="flex align-items-center md:h-screen justify-content-center">
-      <div className="flex align-items-center justify-content-center flex-column md:flex-row">
+      <div className="flex  align-items-center justify-content-center flex-column md:flex-row">
         <HoroScopeForm
           getFormErrorMessage={getFormErrorMessage}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           control={control}
         />
-        <HoroscopeResult result={result} />
+        {isLoading ? (
+          <div className="flex-1 flex align-items-center justify-content-center">
+            <ProgressSpinner
+              style={{ width: "50px", height: "50px" }}
+              strokeWidth="8"
+              fill="var(--surface-ground)"
+              animationDuration=".5s"
+            />
+          </div>
+        ) : (
+          <HoroscopeResult result={result} />
+        )}
       </div>
     </div>
   );

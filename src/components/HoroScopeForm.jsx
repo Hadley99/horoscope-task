@@ -14,7 +14,7 @@ const HoroScopeForm = ({
   control,
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full flex-1">
       <Card className="p-4 py-0  shadow-none ">
         <form onSubmit={handleSubmit(onSubmit)}>
           <p className="text-900 text-5xl font-medium font-bold mb-3">
